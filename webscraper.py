@@ -15,10 +15,9 @@ BASE_URL ="http://www.agriculture.gov.au"
 def scrap_data():
         scraped_data  = []
         res = requests.get(SCRAP_MAIN_URL)
-
         count =0
         images = bs4.BeautifulSoup(res.text,'html').find('ul', class_='flex-container').find_all("li")
-        for ul in images[16:]:
+        for ul in images:
             data_list = []
             href = ul.find('a')
             count+=1
