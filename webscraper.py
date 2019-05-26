@@ -106,28 +106,31 @@ def export_data_xls(columns, rows):
     return wb.save("scraped_data.xls")
 
 def get_img_src_and_save(image_src):
+    try:
+        url = str(image_src.img.get('src'))
+        if url:
+            if  url[0:4] =='http':
+                image_url = str(url)
+            else:
+                image_url = str(BASE_URL + url)
 
-    url = str(image_src.img.get('src'))
-    if url:
-        if  url[0:4] =='http':
-            image_url = str(url)
+            return image_url
         else:
-            image_url = str(BASE_URL + url)
-
-        return image_url
-    else:
-     image_url = "Not Found"
-
-     return image_url
+         image_url = "Not Found"
+         return image_url
+    except:
+        return "Not Found"
 
 
 def save_image(image_url):
-    dirname = datetime.datetime.now().strftime('%Y.%m.%d.%H.%M.%S')
-    filename = "%s_%s.%s" % ("image", dirname, 'png')
-    raw_file_path_and_name = os.path.join(filename)
-    response = requests.get(image_url, stream=True)
-    with open(MEDIA_ROOT + raw_file_path_and_name, 'wb') as out_file:
-        shutil.copyfileobj(response.raw, out_file)
-    return str(out_file.name)
+    try:
+        dirname = datetime.datetime.now().strftime('%Y.%m.%d.%H.%M.%S')
+        filename = "%s_%s.%s" % ("image", dirname, 'png')
+        raw_file_path_and_name = os.path.join(filename)
+        response = requests.get(image_url, stream=True)
+        with open(MEDIA_ROOT + raw_file_path_and_name, 'wb') as out_file:
+            shutil.copyfileobj(response.raw, out_file)
+        return str(out_file.name)
 
-
+    except:
+        return "Not Found"
