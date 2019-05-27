@@ -39,7 +39,7 @@ def scrap_data():
                     image_src= soup.find('div', {"class": "pest-header-image"})
 
                     if image_src :
-                        image_url = get_img_src_and_save(image_src)
+                        image_url = get_img_src(image_src)
                         if not str(image_url) == "Not Found":
                             data_list.append(image_url)#get image path
                             data_list.append(save_image(image_url))#save image and get append imafe path
@@ -48,7 +48,7 @@ def scrap_data():
                             data_list.append("Not Found")
 
                     elif soup.find('div', {"class": "alignnone"}):
-                        image_url = get_img_src_and_save(soup.find('div', {"class": "alignnone"}))
+                        image_url = get_img_src(soup.find('div', {"class": "alignnone"}))
                         if not str(image_url) == "Not Found":
                             data_list.append(image_url)  # get image path
                             data_list.append(save_image(image_url))  # save image and get append imafe path
@@ -104,7 +104,7 @@ def export_data_xls(columns, rows):
 
     return wb.save("scraped_data.xls")
 
-def get_img_src_and_save(image_src):
+def get_img_src(image_src):
     try:
         url = str(image_src.img.get('src'))
         if url:
